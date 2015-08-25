@@ -24,7 +24,6 @@ public class Element {
 		TABLE_ROW(0x00A),
 
 		// Span Element Types
-
 		AUTOLINK(0x10B),
 		CODE_SPAN(0x10C),
 		DOUBLE_EMPHASIS(0x10D),
@@ -35,7 +34,8 @@ public class Element {
 		RAW_HTML_TAG(0x112),
 		TRIPLE_EMPHASIS(0x113),
 		TEXT(0x114),
-		STRIKETHROUGH(0x115);
+		STRIKETHROUGH(0x115),
+		COLOR(0x10A);
 		
 		private final int value;
 
@@ -67,6 +67,8 @@ public class Element {
 	}
 	
 	public void setParent(Element element) {
+
+
 		this.parent = element;
 	}
 	
