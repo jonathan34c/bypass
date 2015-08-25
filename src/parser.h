@@ -74,6 +74,7 @@ namespace Bypass {
 		// Debugging
 
 		void printBuf(struct buf *b);
+		int parsedColor(struct buf *ob, struct buf *text, struct buf *link, struct buf *alt);
 
 	private:
 		Document document;

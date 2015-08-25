@@ -141,6 +141,16 @@ rndr_link(struct buf *ob, struct buf *link, struct buf *title,
 	if (content && content->size) bufput(ob, content->data, content->size);
 	BUFPUTSL(ob, "</a>");
 	return 1; }
+	static int
+rndr_color(struct buf *ob, struct buf *color,
+			struct buf *content, void *opaque) {
+	BUFPUTSL(ob, "<font color=\"");
+	if (color && color->size) lus_attr_escape(ob, color->data, color->size);
+	BUFPUTSL(ob, "\">");
+
+	if (content && content->size) bufput(ob, content->data, content->size);
+	BUFPUTSL(ob, "</font>");
+	return 1; }
 
 static void
 rndr_list(struct buf *ob, struct buf *text, int flags, void *opaque) {

@@ -19,7 +19,7 @@
 #include "markdown.h"
 
 #include "array.h"
-
+#include <android/log.h>
 #include <assert.h>
 #include <string.h>
 #include <strings.h> /* for strncasecmp */
@@ -256,6 +256,11 @@ tag_length(char *data, size_t size, enum mkd_autolink *autolink) {
 	else if (size > 7 && strncasecmp(data + 1, "mailto:", 7) == 0) {
 		i = 8;
 		/* not changing *autolink to go to the address test */ }
+	else if (size > 11 && strncasecmp(data + 1, "font color", 10) == 0) {
+		i = 1;
+		*autolink = MKDA_COLOR;
+		__android_log_print(ANDROID_LOG_INFO, "tag_length","color"); 
+		/* not changing *autolink to go to the address test */ }
 
 	/* completing autolink test: no whitespace or ' or " */
 	if (i >= size || i == '>')
@@ -276,7 +281,13 @@ tag_length(char *data, size_t size, enum mkd_autolink *autolink) {
 		return i + j; }
 
 	/* looking for sometinhg looking like a tag end */
-	while (i < size && data[i] != '>') i += 1;
+		if(*autolink = MKDA_COLOR){
+			i=size-1;
+		}else {
+			while (i < size && data[i] != '>') 
+				i += 1;
+		}
+		
 	if (i >= size) return 0;
 	return i + 1; }
 
@@ -596,8 +607,79 @@ char_langle_tag(struct buf *ob, struct render *rndr,
 	size_t end = tag_length(data, size, &altype);
 	struct buf work = { data, end, 0, 0, 0 };
 	int ret = 0;
+	struct buf link =  { data, end, 0, 0, 0 };
+	struct buf title =  { data, end, 0, 0, 0 };
+	struct buf alt =  { data, end, 0, 0, 0 };
+	size_t i = 1, txt_e, txt_b, spanend, j=0 , span_b, span_e; //i is the int to count , 
 	if (end) {
-		if (rndr->make.autolink && altype != MKDA_NOT_AUTOLINK) {
+			if(altype == MKDA_COLOR && size > 20){
+			__android_log_print(ANDROID_LOG_INFO, "lang_tag","char_color"); 
+			for (i = 1; i < size; i += 1)
+				if (data[i - 1] == '\\') continue;
+				//find > tag 
+			else if(data[i] == '>' && data[i-1] =='t' && data[i-1] =='n'){
+					break;
+				}
+				else if (data[i] == '>') {
+					txt_e = i - 1; 
+					break;
+				}
+				txt_b = 1;
+				int convertData = (int)txt_e;
+				int sizeT = (int)size;
+				__android_log_print(ANDROID_LOG_INFO, "txt_count_e", "%d",convertData); 
+				__android_log_print(ANDROID_LOG_INFO, "size_t", "%d",sizeT); 
+				if (i >= size) return 0;
+				if(txt_e > 1){
+					__android_log_print(ANDROID_LOG_INFO, "LANG_TAG", "find color");
+					__android_log_print(ANDROID_LOG_INFO, "LANG_TAG_start", "%c", data[13]);
+					__android_log_print(ANDROID_LOG_INFO, "LANG_TAG_start", "%c", data[txt_e-1]);
+					// bufput(link, data + 13, txt_e - 1 );
+					// //bufput(color, data + 12, txt_e - 13);
+					// //bufput(color, data + 12, txt_e-1);
+					// link = new_work_buffer(rndr);	
+				};
+				
+				j = txt_e;
+				for(j = txt_e; j < size; j += 1){
+					if(data[j] =='>') span_b = j + 1;
+					else if (data[j]=='<') {
+					span_e =j-1;
+					break;
+					}
+				}
+				//i=j;
+				int spanstart = (int)span_b;
+				int spanend = (int)span_e;
+				__android_log_print(ANDROID_LOG_INFO, "span_b", "%c", data[span_b]);
+				__android_log_print(ANDROID_LOG_INFO, "span_e", "%c", data[span_e]);
+				__android_log_print(ANDROID_LOG_INFO, "span_bn", "%d",spanstart); 
+				__android_log_print(ANDROID_LOG_INFO, "span_en", "%d",spanend); 
+				if(span_e > 1){
+					//parse_inline(content, rndr, data + span_b, span_e);
+					// bufput(text, data + span_b , span_e);
+					// text = new_work_buffer(rndr);
+		
+				}
+				link.data=data+0;
+				link.size=size;
+				title.data=data + span_b;
+				title.size= span_e - span_b+1;
+				alt.data=data + 13;
+				alt.size=txt_e - 13;
+				struct buf *tt = new_work_buffer(rndr);
+			//	parse_inline(tt, rndr, data + span_b, span_e - span_b+1);
+
+//				title = new_work_buffer(rndr);
+				//parse_inline(title, rndr, data, i);
+//				release_work_buffer(rndr, title);
+
+			
+				ret = rndr->make.color(ob, &link, &title, &alt,  rndr->make.opaque);
+
+
+		}
+		else if (rndr->make.autolink && altype != MKDA_NOT_AUTOLINK) {
 			work.data = data + 1;
 			work.size = end - 2;
 			ret = rndr->make.autolink(ob, &work, altype,
@@ -1680,7 +1762,7 @@ markdown(struct buf *ob, struct buf *ib, const struct mkd_renderer *rndrer) {
 	struct buf *text = bufnew(TEXT_UNIT);
 	size_t i, beg, end;
 	struct render rndr;
-
+__android_log_print(ANDROID_LOG_INFO, "markdwon","startmarkdown"); 
 	/* filling the render structure */
 	if (!rndrer) return;
 	rndr.make = *rndrer;

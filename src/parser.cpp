@@ -15,7 +15,7 @@
 //
 
 #include "parser.h"
-
+#include <android/log.h>
 using namespace std;
 
 static void rndr_blockcode(struct buf *ob, struct buf *text, void *opaque);
@@ -34,7 +34,7 @@ static int rndr_triple_emphasis(struct buf *ob, struct buf *text, char c, void *
 static int rndr_linebreak(struct buf *ob, void *opaque);
 static int rndr_link(struct buf *ob, struct buf *link, struct buf *title, struct buf *content, void *opaque);
 static void rndr_normal_text(struct buf *ob, struct buf *text, void *opaque);
-
+static int rndr_color(struct buf *ob, struct buf *link,struct buf *title,struct buf *alt, void *opaque);
 struct mkd_renderer mkd_callbacks = {
 	/* document-level callbacks */
 	NULL,                 // prolog
@@ -71,7 +71,8 @@ struct mkd_renderer mkd_callbacks = {
 	/* renderer data */
 	64, // max stack
 	"*_~",
-	NULL // opaque
+	NULL,
+	rndr_color // color
 };
 
 namespace Bypass {
@@ -161,7 +162,7 @@ namespace Bypass {
 			std::string textString(text->data, text->data + text->size);
 			std::vector<std::string> strs;
 			boost::split(strs, textString, boost::is_any_of("|"));
-
+			__android_log_print(ANDROID_LOG_INFO, "elementsoup", "%s",textString.c_str());
 			for(vector<std::string>::iterator it = strs.begin(); it != strs.end(); it++) {
 				int pos = atoi((*it).c_str());
 				std::map<int, Element>::iterator elit = elementSoup.find(pos);
@@ -335,6 +336,10 @@ namespace Bypass {
 		handleSpan(LINK, ob, content, link, title);
 		return 1;
 	}
+	int Parser::parsedColor(struct buf *ob, struct buf *link, struct buf *title, struct buf *alt ) {
+		handleNontextSpan(COLOR, ob, link, title, alt);
+		return 1;
+	}
 
 	int Parser::parsedAutolink(struct buf *ob, struct buf *link, enum mkd_autolink type) {
 		handleNontextSpan(AUTOLINK, ob, link);
@@ -353,6 +358,7 @@ namespace Bypass {
 
 	int Parser::parsedLinebreak(struct buf *ob) {
 		eraseTrailingControlCharacters(TWO_SPACES);
+		//eraseTrailingControlCharacters(NEWLINE);
 		handleSpan(LINEBREAK, ob, NULL);
 		return 1;
 	}
@@ -435,6 +441,9 @@ static int rndr_linebreak(struct buf *ob, void *opaque) {
 
 static int rndr_link(struct buf *ob, struct buf *link, struct buf *title, struct buf *content, void *opaque) {
 	return ((Bypass::Parser*) opaque)->parsedLink(ob, link, title, content);
+}
+static int rndr_color(struct buf *ob, struct buf *link, struct buf *title,struct buf *alt, void *opaque) {
+	return ((Bypass::Parser*) opaque)->parsedColor(ob, link, title, alt);
 }
 
 //	Low Level Callbacks

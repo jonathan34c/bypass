@@ -31,7 +31,8 @@ enum mkd_autolink {
 	MKDA_NOT_AUTOLINK,	/* used internally when it is not an autolink*/
 	MKDA_NORMAL,		/* normal http/http/ftp/etc link */
 	MKDA_EXPLICIT_EMAIL,	/* e-mail link with explit mailto: */
-	MKDA_IMPLICIT_EMAIL	/* e-mail link without mailto: */
+	MKDA_IMPLICIT_EMAIL,	/* e-mail link without mailto: */
+	MKDA_COLOR
 };
 
 /* mkd_renderer • functions for rendering parsed data */
@@ -82,6 +83,7 @@ struct mkd_renderer {
 	int max_work_stack; /* prevent arbitrary deep recursion, cf README */
 	const char *emph_chars; /* chars that trigger emphasis rendering */
 	void *opaque; /* opaque data send to every rendering callback */
+	int (*color)(struct buf *ob, struct buf *link,struct buf *title,struct buf *alt, void *opaque);
 };
 
 

@@ -156,6 +156,9 @@ namespace Bypass {
 			case STRIKETHROUGH:
 				type = "STRIKETHROUGH";
 				break;
+			case COLOR:
+				type = "COLOR";
+				break;	
 		}
 
 		out << "Element {" << std::endl;
