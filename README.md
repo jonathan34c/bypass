@@ -1,4 +1,4 @@
-Bypass
+Bypass (Custome)
 ======
 
 Skip the HTML, Bypass takes markdown and renders it directly on Android and iOS.
@@ -11,40 +11,32 @@ Skip the HTML, Bypass takes markdown and renders it directly on Android and iOS.
 
 - Boost must be [installed on your system](http://www.boost.org/doc/libs/1_53_0/more/getting_started/index.html)
 
+This is the custome versino of the original * [Bypass library] (https://github.com/Uncodin/bypass). I have added some new methods in to the library with to support following contents.
+
+1. COLOR: the library now supports colror in PHP format <font color="Red">this is red</font>.
+2. EMPHASE in PARAGRAPH: If you need to emphase the entire paragraph, the original library has some problems, now you can emphase the entire paragraph. 
+
+
+
 ## Android
 
-If you just want to include Bypass in your Maven project, add the following
-dependency block to your `pom.xml`:
-
-    <dependency>
-        <groupId>in.uncod.android.bypass</groupId>
-        <artifactId>bypass</artifactId>
-        <type>apklib</type>
-        <version>1.1</version>
-    </dependency>
+If you were usign Eclipse, please follow the method below: 
 
 [Building And Using](platform/android/README.md)
 
-### Contributors
+If you were using android studio, here's what you can do. 
+1. download the android ndk file. 
+2. use comment line to cd the comment line to you bypass/platform/android/library. 
+3. PATH=$PATH:/Users/xxx/NDK/android-ndk-xxx
+4. type :ndk-build. 
+5. open your android studio and add the library to your dependency as module. 
+6. replace the io file in your bypass/platform/android/library/libs 
+7. in android studi. add the library to your dependency from file>project structure>Dependency
 
-* [Colin Edwards](https://github.com/DDRBoxman)
-* [Cameron Currie](https://github.com/cwc)
-* [Albert Wang](https://github.com/albert-wang)
-* [Jimi Smith](https://github.com/JimiSmith)
-* [Dan Lew](https://github.com/dlew)
 
 ## iOS
 
 [Building And Using](platform/ios/README.md)
-
-### Contributors
-
-* [Damian Carrillo] (https://github.com/damiancarrillo)
-* [Cameron Currie](https://github.com/cwc)
-* [Albert Wang](https://github.com/albert-wang)
-* [Matthias Tretter] (https://github.com/myell0w)
-* [Audun Holm Ellertsen] (https://github.com/audun)
-* [Vinh Nguyen] (https://github.com/vinhnx)
 
 ## 3rd Party Libraries
 
