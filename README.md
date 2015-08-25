@@ -25,12 +25,18 @@ If you were usign Eclipse, please follow the method below:
 [Building And Using](platform/android/README.md)
 
 If you were using android studio, here's what you can do. 
-1. download the [android NDK](https://developer.android.com/ndk/index.html). \n
-2. use terminal to cd to you bypass/platform/android/library folder. \n
-3. type PATH=$PATH:/Users/xxx/NDK/android-ndk-xxx in the terminal (xxx are your own directory)\n
-4. type ndk-build in your terminal. \n
-5. open your android studio and add the library to your dependency as module. \n
-6. replace the io file in your bypass/platform/android/library/libs \n
+1. download the [android NDK](https://developer.android.com/ndk/index.html).
+
+2. use terminal to cd to you bypass/platform/android/library folder.
+
+3. type PATH=$PATH:/Users/xxx/NDK/android-ndk-xxx in the terminal (xxx are your own directory)
+
+4. type ndk-build in your terminal. 
+
+5. open your android studio and add the library to your dependency as module. 
+
+6. replace the io file in your bypass/platform/android/library/libs 
+
 7. in android studi. add the library to your dependency from file>project structure>Dependency
 
 
