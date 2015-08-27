@@ -13,7 +13,8 @@ Skip the HTML, Bypass takes markdown and renders it directly on Android and iOS.
 
 This is the custome versino of the original * [Bypass library] (https://github.com/Uncodin/bypass). This library has fixed some bugs in the original library and added few more functions. 
 
-1. COLOR: the library now supports colror in PHP format 	<font color="Red">this is red</font>.
+1. COLOR: the library now supports colror in PHP format
+	<font color="Red">this is red</font>.
 2. EMPHASE in PARAGRAPH: If you need to emphase the entire paragraph, the original library will only show *** at the first line. In this library, you can parse the entire Paragraph with no problem.
 3. Youtube Video: Although there is no youtube functions in the markdown language, I have added a parser to parse youtube video links and disply the video using youtube Api. 
 
@@ -57,15 +58,10 @@ we can turn markdown language in to amazing article with with 2 lines of code li
 
 and this is what you get
 
-![](https://www.dropbox.com/s/0paoxc3njytt8d8/11781710_10205221350073544_5121681927594197293_n.jpg?dl=0)
-![](https://www.dropbox.com/s/n8rsqvzg4p6x0ej/11960212_10205221349913540_1297920556248114067_n.jpg?dl=0)
+[Imgur](http://i.imgur.com/3ukRg33.jpg)
+[Imgur](http://i.imgur.com/Tir3Fnb.jpg)
 
 
-
-with simple code like this 
-
-	Markdown markdown=new Markdown();
-	markdown.parser(Context, markdownstring, linearlayout, activity);
 
 
 
