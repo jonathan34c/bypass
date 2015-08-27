@@ -56,10 +56,10 @@ we can turn markdown language in to amazing article with with 2 lines of code li
 	Markdown markdown=new Markdown();
 	markdown.parser(Context, markdownstring, linearlayout, activity);
 
-and this is what you get
+and this is what you will get
 
-[Imgur](http://i.imgur.com/3ukRg33.jpg)
-[Imgur](http://i.imgur.com/Tir3Fnb.jpg)
+![](http://i.imgur.com/3ukRg33.jpg)
+![](http://i.imgur.com/Tir3Fnb.jpg)
 
 
 
